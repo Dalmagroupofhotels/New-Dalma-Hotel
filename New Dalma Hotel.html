@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Dalma Hotel - Bububu, Zanzibar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            background-image: url('hotel-exterior.jpg');  /* Added background image */
+            background-size: cover;  /* Covers the entire header */
+            background-position: center;  /* Centers the image */
+            position: relative;  /* For overlay if needed */
+        }
+        header::before {  /* Optional semi-transparent overlay for better text readability */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);  /* Dark overlay; adjust opacity as needed */
+            z-index: 1;
+        }
+        header > * {  /* Ensures content is above the overlay */
+            position: relative;
+            z-index: 2;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .section h2 {
+            color: #007bff;
+        }
+        .amenities ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .amenities li {
+            background: #e9ecef;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .gallery img {
+            max-width: 30%;  /* Adjusted for actual size with cap */
+            height: auto;    /* Preserves aspect ratio */
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+        footer {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        @media (max-width: 768px) {
+            .gallery img {
+                max-width: 100%;  /* Full width on mobile, still preserves ratio */
+                height: auto;
+            }
+        }
+
+        /* Lightbox Styles (unchanged) */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        /* Booking Modal Styles (unchanged) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 10px;
+        }
+        input, select, textarea {
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .book-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        .book-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to New Dalma Hotel</h1>
+        <p>Your Tropical Paradise in Bububu, Zanzibar</p>
+        <button class="book-btn" onclick="openModal()">Book Now</button>
+    </header>
+
+    <div class="container">
+        <div class="section welcome">
+            <h2>Discover Serenity by the Sea</h2>
+            <p>Nestled just 200 meters from the pristine ocean shores of Zanzibar, New Dalma Hotel offers a perfect blend of comfort, convenience, and natural beauty. Whether you're seeking a relaxing getaway, an adventurous escape, or a peaceful retreat, our hotel provides everything you need for an unforgettable stay. Only 7km from the bustling town center, enjoy the best of both worlds – tranquility and accessibility.</p>
+        </div>
+
+        <div class="section amenities">
+            <h2>Our Amenities</h2>
+            <ul>
+                <li>Refreshing Outdoor Pool</li>
+                <li>Free WiFi Throughout the Property</li>
+                <li>Free Breakfast</li>
+                <li>On-Site Restaurant Serving Local Cuisine</li>
+                <li>Cozy Pub/Bar for Evening Relaxation</li>
+                <li>Spacious Rooms with Modern Comforts</li>
+                <li>24/7 Front Desk Service</li>
+                <li>Daily Housekeeping and Laundry Services</li>
+                <li>Free Parking</li>
+            </ul>
+        </div>
+
+        <div class="section location">
+            <h2>Prime Location</h2>
+            <p>Located in the charming area of Bububu, Zanzibar, we're just a stone's throw from the beach and a short drive to town. Explore nearby attractions like spice tours, historic Stone Town, or simply unwind on the white sandy beaches.</p>
+            <p><a href="https://maps.app.goo.gl/Eh9QVuiL6pCDU5MWA?g_st=aw" target="_blank">View Us on Google Maps</a></p>
+        </div>
+
+        <div class="section rates">
+            <h2>Room Rates</h2>
+            <p>Our affordable rates start from 30 USD to 50 USD per night, depending on room type and season. Contact us for special offers and packages!</p>
+        </div>
+
+        <div class="section checkin">
+            <h2>Check-In & Check-Out</h2>
+            <p>Check-In: 10:00 AM</p>
+            <p>Check-Out: 11:00 AM</p>
+        </div>
+
+        <div class="section contact">
+            <h2>Contact Us</h2>
+            <p>Phone: +255-712494918 | +255-777291919</p>
+            <p>Insta: dalmalodge</p>
+            <p>Email: dalmagroupofhotels@gmail.com</p>
+            <p>We're here to make your stay exceptional.</p>
+            <button class="book-btn" onclick="openModal()">Book Now</button>
+        </div>
+
+        <div class="section gallery">
+            <h2>Gallery</h2>
+            <img src="hotel-exterior.jpg" alt="Hotel Exterior" onclick="openLightbox(this.src)">
+            <img src="IMG_20250712_190236.jpg" alt="Hotel Exterior" onclick="openLightbox(this.src)">
+            <img src="IMG_1701.jpg" alt="Swimming Pool" onclick="openLightbox(this.src)">
+            <img src="IMG_1383.jpg" alt="Room Interior" onclick="openLightbox(this.src)">
+            <img src="IMG_1386.jpg" alt="Room Interior" onclick="openLightbox(this.src)">
+            <img src="IMG_1387.jpg" alt="Room Interior" onclick="openLightbox(this.src)">
+            <img src="IMG_1416.jpg" alt="Room Interior" onclick="openLightbox(this.src)">
+            <img src="IMG_1392.jpg" alt="Room Interior" onclick="openLightbox(this.src)">
+            <img src="IMG_1366.jpg" alt="Restaurant" onclick="openLightbox(this.src)">
+            <img src="IMG_1654.jpg" alt="Restaurant" onclick="openLightbox(this.src)">
+            <img src="IMG_1360.jpg" alt="Pub/Bar" onclick="openLightbox(this.src)">
+        </div>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <img id="lightbox-img" src="" alt="Enlarged Image">
+    </div>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Book Your Stay</h2>
+            <form action="mailto:info@newdalmahotel.com?subject=Booking Request" method="post" enctype="text/plain">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="Name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="Email" required>
+
+                <label for="checkin">Check-In Date:</label>
+                <input type="date" id="checkin" name="Check-In Date" required>
+
+                <label for="checkout">Check-Out Date:</label>
+                <input type="date" id="checkout" name="Check-Out Date" required>
+
+                <label for="guests">Number of Guests:</label>
+                <input type="number" id="guests" name="Guests" min="1" required>
+
+                <label for="roomtype">Room Type:</label>
+                <select id="roomtype" name="Room Type">
+                    <option value="Standard (30 USD)">Standard (30 USD)</option>
+                    <option value="Deluxe (40 USD)">Deluxe (40 USD)</option>
+                    <option value="Suite (50 USD)">Suite (50 USD)</option>
+                </select>
+
+                <label for="message">Additional Message:</label>
+                <textarea id="message" name="Message" rows="4"></textarea>
+
+                <button type="submit">Submit Booking Request</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 New Dalma Hotel. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Lightbox JavaScript
+        function openLightbox(src) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox').style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+
+        // Booking Modal JavaScript
+        function openModal() {
+            document.getElementById('bookingModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('bookingModal').style.display = 'none';
+        }
+
+        // Close modal if clicking outside
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('bookingModal')) {
+                closeModal();
+            } else if (event.target == document.getElementById('lightbox')) {
+                closeLightbox();
+            }
+        }
+    </script>
+</body>
+</html>
